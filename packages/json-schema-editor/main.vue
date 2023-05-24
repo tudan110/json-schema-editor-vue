@@ -30,11 +30,17 @@
         <a-col>
           <a-input :value="pickValue.title" class="ant-col-title" :placeholder="local['title']" @blur="onInputTitle"/>
         </a-col>
+        <a-col>
+          <a-input :value="pickValue.description" class="ant-col-title" :placeholder="local['description']" @blur="onInputDescription"/>
+        </a-col>
+        <a-col>
+          <a-input :value="pickValue.default" class="ant-col-title" :placeholder="local['default']" @blur="onInputDefault"/>
+        </a-col>
         <a-col :span="6" class="ant-col-setting">
-          <a-tooltip>
+          <!--<a-tooltip>
             <span slot="title" v-text="local['adv_setting']">高级设置</span>
             <a-button type="link" icon="setting" class="setting-icon" @click="onSetting"/>
-          </a-tooltip>
+          </a-tooltip>-->
           <a-tooltip v-if="isObject">
             <span slot="title" v-text="local['add_child_node']">添加子节点</span>
             <a-button type="link" icon="plus" class="plus-icon" @click="addChild"/>
@@ -50,7 +56,11 @@
         </a-col>
       </a-row>
       <template v-if="!hidden&&pickValue.properties && !isArray">
-        <json-schema-editor  v-for="(item,key,index) in pickValue.properties" :value="{[key]:item}" :parent="pickValue" :key="index" :deep="deep+1" :root="false" class="children" :lang="lang" :custom="custom"/>
+        <draggable
+          v-model="pickValueProperties"
+        >
+          <json-schema-editor  v-for="(item,key,index) in pickValue.properties" :value="{[key]:item}" :parent="pickValue" :key="index" :deep="deep+1" :root="false" class="children" :lang="lang" :custom="custom"/>
+        </draggable>
       </template>
       <template v-if="isArray">
         <json-schema-editor  :value="{items:pickValue.items}" :deep="deep+1" disabled isItem :root="false" class="children" :lang="lang" :custom="custom"/>
@@ -72,7 +82,7 @@
                   return triggerNode.parentNode || document.body;
                 }"
                  :placeholder="local[key]"
-                > 
+                >
                   <a-select-option value="">{{ local['nothing'] }}</a-select-option>
                   <a-select-option :key="t" v-for="t in advancedAttr[key].enums">
                     {{t}}
@@ -89,7 +99,7 @@
             <a-col :span="8" v-for="item in customProps" :key="item.key">
               <a-form-item :label="item.key">
                 <a-input v-model="item.value" style="width:calc(100% - 30px)"/>
-                <a-button icon="close" type="link" @click="removeCustomNode(item.key)" style="width:30px"></a-button>  
+                <a-button icon="close" type="link" @click="removeCustomNode(item.key)" style="width:30px"></a-button>
               </a-form-item>
             </a-col>
             <a-col :span="8" v-show="addProp.key != undefined">
@@ -100,13 +110,13 @@
             </a-col>
             <a-col :span="8">
               <a-form-item>
-                <a-button icon="check" type="link" @click="confirmAddCustomNode(null)" v-if="customing"></a-button>  
+                <a-button icon="check" type="link" @click="confirmAddCustomNode(null)" v-if="customing"></a-button>
                 <a-tooltip :title="local['add_custom']" v-else>
-                  <a-button icon="plus" type="link" @click="addCustomNode"></a-button>  
+                  <a-button icon="plus" type="link" @click="addCustomNode"></a-button>
                 </a-tooltip>
               </a-form-item>
             </a-col>
-          </a-row> 
+          </a-row>
         </a-form>
         <h3 v-text="local['preview']">预览</h3>
         <pre style="width:100%">{{completeNodeValue}}</pre>
@@ -116,9 +126,24 @@
 <script>
 import Vue from 'vue'
 import { isNull, renamePropertyAndKeepKeyPrecedence } from './util'
-import {TYPE_NAME, TYPE} from './type/type'
-import { Row,Col,Button,Input,InputNumber, Icon,Checkbox,Select,Tooltip,Modal,Form,Switch} from 'ant-design-vue'
+import { TYPE, TYPE_NAME } from './type/type'
+import {
+  Button,
+  Checkbox,
+  Col,
+  Form,
+  Icon,
+  Input,
+  InputNumber,
+  Modal,
+  Row,
+  Select,
+  Switch,
+  Tooltip
+} from 'ant-design-vue'
 import LocalProvider from './LocalProvider'
+import draggable from 'vuedraggable'
+
 Modal.install(Vue)
 export default {
   name:'JsonSchemaEditor',
@@ -135,7 +160,8 @@ export default {
     AModal:Modal,
     AForm:Form,
     AFormItem: Form.Item,
-    ASwitch: Switch
+    ASwitch: Switch,
+    draggable
   },
   props:{
     value: {
@@ -176,6 +202,34 @@ export default {
     }
   },
   computed: {
+    pickValueProperties: {
+      get() {
+        /*let props = Object.values(this.value)[0].properties
+        let result = []
+        for (const key in props) {
+          result.push({
+            'key': key,
+            ...props[key]
+          })
+        }
+        return result*/
+        const props = Object.values(this.value)[0].properties
+        return Object.entries(props).map(([key, value]) => ({ key, ...value }))
+      },
+      set(val) {
+        /*let properties = {}
+        for (const valElement of val) {
+          let key = valElement['key']
+          delete valElement['key']
+          properties[key] = valElement
+        }
+        Object.values(this.value)[0].properties = properties*/
+        Object.values(this.value)[0].properties = val.reduce((acc, { key, ...rest }) => {
+          acc[key] = rest
+          return acc
+        }, {})
+      }
+    },
     pickValue(){
       return  Object.values(this.value)[0]
     },
@@ -261,6 +315,12 @@ export default {
     },
     onInputTitle(e) {
       this.$set(this.pickValue, 'title', e.target.value)
+    },
+    onInputDescription(e) {
+      this.$set(this.pickValue, 'description', e.target.value)
+    },
+    onInputDefault(e) {
+      this.$set(this.pickValue, 'default', e.target.value)
     },
     onChangeType() {
       this.parseCustomProps()
@@ -367,13 +427,13 @@ export default {
       this.customing = false
     },
     removeNode(){
-      const { properties,required } = this.parent 
+      const { properties,required } = this.parent
       this.$delete(properties,this.pickKey)
       if(required){
         const pos = required.indexOf(this.pickKey)
         pos >=0 && required.splice(pos,1)
         required.length === 0 && this.$delete(this.parent,'required')
-      }      
+      }
     },
     _joinName(){
       return  `field_${this.deep}_${this.countAdd++}`
