@@ -42,7 +42,7 @@ const langs = {
 		'add_custom': 'Add Custom Prop',
 	},
 	zh_CN: {
-		'title': '标题',
+		'title': '名称',
 		'import_json': '导入 json',
 		'base_setting': '基础设置',
 		'all_setting': '编辑源码',
