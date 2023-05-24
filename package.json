@@ -23,6 +23,7 @@
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "lib": "vue-cli-service build --target lib --name json-schema-editor-vue --dest lib packages/index.js",
+    "package": "vue-cli-service build --target lib --name json-schema-editor-vue --dest json-schema-editor-vue packages/index.js",
     "analyzer": "cross-env analyzer=true vue-cli-service build"
   },
   "dependencies": {
@@ -30,7 +31,8 @@
     "core-js": "^3.6.5",
     "generate-schema": "^2.6.0",
     "vue": "^2.6.11",
-    "vue-codemirror": "^4.0.6"
+    "vue-codemirror": "^4.0.6",
+    "vuedraggable": "^2.24.3"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.4.0",
