@@ -1,7 +1,7 @@
 <template>
   <div class="json-schema-editor">
     <a-row class="row" :gutter="10">
-      <a-col :span="8" class="ant-col-name">
+      <a-col :span="5" class="ant-col-name">
         <div :style="{marginLeft:`${20*deep}px`}" class="ant-col-name-c">
           <a-button v-if="pickValue.type==='object'" type="link" :icon="hidden?'caret-right':'caret-down'"
                     style="color:rgba(0,0,0,.65)" @click="hidden = !hidden" />
@@ -29,18 +29,18 @@
           </a-select-option>
         </a-select>
       </a-col>
-      <a-col>
+      <a-col :span="4">
         <a-input :value="pickValue.title" class="ant-col-title" :placeholder="local['title']" @blur="onInputTitle" />
       </a-col>
-      <a-col>
+      <a-col :span="4">
         <a-input :value="pickValue.description" class="ant-col-title" :placeholder="local['description']"
                  @blur="onInputDescription" />
       </a-col>
-      <a-col>
+      <a-col :span="4">
         <a-input :value="pickValue.default" class="ant-col-title" :placeholder="local['default']"
                  @blur="onInputDefault" />
       </a-col>
-      <a-col :span="6" class="ant-col-setting">
+      <a-col :span="2" class="ant-col-setting">
         <!--<a-tooltip>
           <span slot="title" v-text="local['adv_setting']">高级设置</span>
           <a-button type="link" icon="setting" class="setting-icon" @click="onSetting"/>
@@ -502,6 +502,7 @@ export default {
 .json-schema-editor .row .ant-col-name .ant-col-name-c {
   display: flex;
   align-items: center;
+  cursor: all-scroll;
 }
 
 .json-schema-editor .row .ant-col-name .ant-col-name-required {
