@@ -4,6 +4,7 @@ const path = require('path')
 module.exports = {
 	publicPath: './',
 	productionSourceMap: false,
+  lintOnSave: true,
 	pages: {
 		index: {
 			entry: 'examples/main.js',
@@ -21,7 +22,7 @@ module.exports = {
   },
   chainWebpack(config) {
     if(process.env.analyzer) config.plugin('webpack-report').use(require('webpack-bundle-analyzer').BundleAnalyzerPlugin)
-    
+
     config.plugin("loadshReplace").use(new LodashModuleReplacementPlugin())
   }
 
