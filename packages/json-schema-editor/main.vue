@@ -17,7 +17,7 @@
           <a-checkbox :disabled="isItem" :checked="checked" class="ant-col-name-required" @change="onCheck" />
         </a-tooltip>
       </a-col>
-      <a-col :span="4">
+      <a-col :span="3">
         <a-select v-model="pickValue.type" :disabled="disabledType" class="ant-col-type" @change="onChangeType"
                   :getPopupContainer="
           triggerNode => {
@@ -36,7 +36,7 @@
         <a-input :value="pickValue.description" class="ant-col-title" :placeholder="local['description']"
                  @blur="onInputDescription" />
       </a-col>
-      <a-col :span="3">
+      <a-col :span="4">
         <a-input :value="pickValue.default" class="ant-col-title" :placeholder="local['default']"
                  @blur="onInputDefault" />
       </a-col>
