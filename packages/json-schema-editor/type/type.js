@@ -1,18 +1,20 @@
-import _object from './object'
 import _string from './string'
-import _array from './array'
-import _boolean from './boolean'
 import _integer from './integer'
 import _number from './number'
+import _boolean from './boolean'
+import _array from './array'
+import _object from './object'
+import _any from './any'
 
-const TYPE_NAME = ['string', 'number', 'integer', 'object', 'array', 'boolean']
+const TYPE_NAME = ['string', 'integer', 'number', 'boolean', 'array', 'object', 'any']
 
 const TYPE = {
-  'object': _object,
   'string': _string,
-  'array': _array,
-  'boolean': _boolean,
   'integer': _integer,
-  'number': _number
+  'number': _number,
+  'boolean': _boolean,
+  'array': _array,
+  'object': _object,
+  'any': _any
 }
 export { TYPE, TYPE_NAME }
