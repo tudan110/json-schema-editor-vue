@@ -3,6 +3,18 @@
     <a-row class="row" :gutter="10">
       <a-col :span="8" class="ant-col-name">
         <div :style="{marginLeft:`${20*deep}px`}" class="ant-col-name-c">
+          <!-- 可上下拖拽的图标 -->
+          <template v-if="!hidden && !disabled && !root && !isItem">
+            <i aria-label="icon: plus" class="anticon anticon-plus" style="cursor: ns-resize">
+              <svg t="1685091441055" class="icon" viewBox="64 64 896 896" version="1.1"
+                   xmlns="http://www.w3.org/2000/svg"
+                   p-id="1936" width="1em" height="1em">
+                <path
+                  d="M896 544 128 544C110.32 544 96 529.68 96 512 96 494.32 110.32 480 128 480L896 480C913.68 480 928 494.32 928 512 928 529.68 913.68 544 896 544ZM896 224 128 224C110.32 224 96 209.68 96 192 96 174.32 110.32 160 128 160L896 160C913.68 160 928 174.32 928 192 928 209.68 913.68 224 896 224ZM128 800 896 800C913.68 800 928 814.32 928 832 928 849.68 913.68 864 896 864L128 864C110.32 864 96 849.68 96 832 96 814.32 110.32 800 128 800Z"
+                  p-id="1937"></path>
+              </svg>
+            </i>
+          </template>
           <a-button v-if="pickValue.type==='object'" type="link" :icon="hidden?'caret-right':'caret-down'"
                     style="color:rgba(0,0,0,.65)" @click="hidden = !hidden" />
           <span v-else style="width:32px;display:inline-block"></span>
@@ -10,15 +22,16 @@
         </div>
         <a-tooltip v-if="root">
           <span slot="title" v-text="local['checked_all']">全选</span>
-          <a-checkbox :disabled="!isObject && !isArray" class="ant-col-name-required" @change="onRootCheck" />
+          <a-checkbox :disabled="disabled || !isObject" class="ant-col-name-required" @change="onRootCheck" />
         </a-tooltip>
         <a-tooltip v-else>
           <span slot="title" v-text="local['required']">是否必填</span>
-          <a-checkbox :disabled="isItem" :checked="checked" class="ant-col-name-required" @change="onCheck" />
+          <a-checkbox :disabled="disabled || isItem" :checked="checked" class="ant-col-name-required"
+                      @change="onCheck" />
         </a-tooltip>
       </a-col>
       <a-col :span="3">
-        <a-select v-model="pickValue.type" :disabled="disabledType" class="ant-col-type" @change="onChangeType"
+        <a-select v-model="pickValue.type" :disabled="disabled" class="ant-col-type" @change="onChangeType"
                   :getPopupContainer="
           triggerNode => {
             return triggerNode.parentNode || document.body;
@@ -30,14 +43,16 @@
         </a-select>
       </a-col>
       <a-col :span="3">
-        <a-input :value="pickValue.title" class="ant-col-title" :placeholder="local['title']" @blur="onInputTitle" />
+        <a-input :value="pickValue.title" :disabled="disabled" class="ant-col-title" :placeholder="local['title']"
+                 @blur="onInputTitle" />
       </a-col>
       <a-col :span="4">
-        <a-input :value="pickValue.description" class="ant-col-title" :placeholder="local['description']"
+        <a-input :value="pickValue.description" :disabled="disabled" class="ant-col-title"
+                 :placeholder="local['description']"
                  @blur="onInputDescription" />
       </a-col>
       <a-col :span="4">
-        <a-input :value="pickValue.default" class="ant-col-title" :placeholder="local['default']"
+        <a-input :value="pickValue.default" :disabled="disabled" class="ant-col-title" :placeholder="local['default']"
                  @blur="onInputDefault" />
       </a-col>
       <a-col :span="2" class="ant-col-setting">
@@ -64,7 +79,7 @@
         </a-tooltip>
       </a-col>
     </a-row>
-    <template v-if="!hidden&&pickValue.properties && !isArray">
+    <template v-if="!hidden && pickValue.properties && !isArray">
       <draggable
         v-model="pickValueProperties"
       >
@@ -186,10 +201,6 @@ export default {
       required: true
     },
     disabled: { //name不可编辑，根节点name不可编辑,数组元素name不可编辑
-      type: Boolean,
-      default: false
-    },
-    disabledType: { //禁用类型选择
       type: Boolean,
       default: false
     },
@@ -503,7 +514,6 @@ export default {
   display: flex;
   flex: 1;
   align-items: center;
-  cursor: all-scroll;
 }
 
 .json-schema-editor .row .ant-col-name .ant-col-name-required {
