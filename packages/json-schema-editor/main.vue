@@ -22,16 +22,15 @@
         </div>
         <a-tooltip v-if="root">
           <span slot="title" v-text="local['checked_all']">全选</span>
-          <a-checkbox :disabled="disabled || !isObject" class="ant-col-name-required" @change="onRootCheck" />
+          <a-checkbox :disabled="!isObject && !isArray" class="ant-col-name-required" @change="onRootCheck" />
         </a-tooltip>
         <a-tooltip v-else>
           <span slot="title" v-text="local['required']">是否必填</span>
-          <a-checkbox :disabled="disabled || isItem" :checked="checked" class="ant-col-name-required"
-                      @change="onCheck" />
+          <a-checkbox :disabled="isItem" :checked="checked" class="ant-col-name-required" @change="onCheck" />
         </a-tooltip>
       </a-col>
       <a-col :span="3">
-        <a-select v-model="pickValue.type" :disabled="disabled" class="ant-col-type" @change="onChangeType"
+        <a-select v-model="pickValue.type" :disabled="disabledType" class="ant-col-type" @change="onChangeType"
                   :getPopupContainer="
           triggerNode => {
             return triggerNode.parentNode || document.body;
@@ -43,16 +42,14 @@
         </a-select>
       </a-col>
       <a-col :span="3">
-        <a-input :value="pickValue.title" :disabled="disabled" class="ant-col-title" :placeholder="local['title']"
-                 @blur="onInputTitle" />
+        <a-input :value="pickValue.title" class="ant-col-title" :placeholder="local['title']" @blur="onInputTitle" />
       </a-col>
       <a-col :span="4">
-        <a-input :value="pickValue.description" :disabled="disabled" class="ant-col-title"
-                 :placeholder="local['description']"
+        <a-input :value="pickValue.description" class="ant-col-title" :placeholder="local['description']"
                  @blur="onInputDescription" />
       </a-col>
       <a-col :span="4">
-        <a-input :value="pickValue.default" :disabled="disabled" class="ant-col-title" :placeholder="local['default']"
+        <a-input :value="pickValue.default" class="ant-col-title" :placeholder="local['default']"
                  @blur="onInputDefault" />
       </a-col>
       <a-col :span="2" class="ant-col-setting">
@@ -79,7 +76,7 @@
         </a-tooltip>
       </a-col>
     </a-row>
-    <template v-if="!hidden && pickValue.properties && !isArray">
+    <template v-if="!hidden&&pickValue.properties && !isArray">
       <draggable
         v-model="pickValueProperties"
       >
@@ -201,6 +198,10 @@ export default {
       required: true
     },
     disabled: { //name不可编辑，根节点name不可编辑,数组元素name不可编辑
+      type: Boolean,
+      default: false
+    },
+    disabledType: { //禁用类型选择
       type: Boolean,
       default: false
     },
@@ -514,6 +515,7 @@ export default {
   display: flex;
   flex: 1;
   align-items: center;
+  cursor: all-scroll;
 }
 
 .json-schema-editor .row .ant-col-name .ant-col-name-required {
