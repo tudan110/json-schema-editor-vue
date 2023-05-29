@@ -73,8 +73,7 @@ export default {
 |属性|说明|类型|是否必须|默认值|
 :-|:-|:-|:-|:-
 |value|传入一个默认的树节点，用来接收编辑后的json schema结果|Object|是||
-|disabled|节点名称不可编辑|Boolean||`false`|
-|disabledType|节点类型不可选择|Boolean||`false`|
+|disabled|是否可编辑|Boolean||`false`|
 |root|是否是根节点|Boolean||`true`|
 |custom|是否允许添加自定义属性|Boolean||`false`|
 |lang|国际化(可选zh_CN和en_US)|String||`zh_CN`|
