@@ -20,13 +20,15 @@
           <span v-else style="width:32px;display:inline-block"></span>
           <a-input :disabled="disabled || root" :value="pickKey" class="ant-col-name-input" @blur="onInputName" />
         </div>
-        <a-tooltip v-if="root">
+        <a-tooltip v-if="root" v-show="showCheckbox">
           <span slot="title" v-text="local['checked_all']">全选</span>
-          <a-checkbox :disabled="disabled || !isObject && !isArray" class="ant-col-name-required" @change="onRootCheck" />
+          <a-checkbox :disabled="disabled || !isObject && !isArray" class="ant-col-name-required"
+                      @change="onRootCheck" />
         </a-tooltip>
-        <a-tooltip v-else>
+        <a-tooltip v-else v-show="showCheckbox">
           <span slot="title" v-text="local['required']">是否必填</span>
-          <a-checkbox :disabled="disabled || isItem" :checked="checked" class="ant-col-name-required" @change="onCheck" />
+          <a-checkbox :disabled="disabled || isItem" :checked="checked" class="ant-col-name-required"
+                      @change="onCheck" />
         </a-tooltip>
       </a-col>
       <a-col :span="3">
@@ -89,6 +91,7 @@
           :parent="pickValue"
           :key="index"
           :deep="deep+1"
+          :show-checkbox="showCheckbox"
           :disabled="disabled"
           :root="false"
           class="children"
@@ -209,6 +212,10 @@ export default {
     value: {
       type: Object,
       required: true
+    },
+    showCheckbox: { //是否展示必填选择框
+      type: Boolean,
+      default: true
     },
     disabled: { //name不可编辑，根节点name不可编辑,数组元素name不可编辑
       type: Boolean,

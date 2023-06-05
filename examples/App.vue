@@ -48,7 +48,7 @@ export default {
         {
           'root': {
             'type': 'object',
-            'title': '条件',
+            'title': '名称',
             'properties': {
               'name': {
                 'type': 'string',
