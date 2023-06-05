@@ -30,6 +30,7 @@
           <a-checkbox :disabled="disabled || isItem" :checked="checked" class="ant-col-name-required"
                       @change="onCheck" />
         </a-tooltip>
+        <span v-if="!showCheckbox" style="width:24px;display:inline-block"></span>
       </a-col>
       <a-col :span="3">
         <a-select v-model="pickValue.type" :disabled="disabled || root" class="ant-col-type" @change="onChangeType"
