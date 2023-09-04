@@ -5,7 +5,7 @@
         <div :style="{marginLeft:`${20*deep}px`}" class="ant-col-name-c">
           <!-- 可上下拖拽的图标 -->
           <template v-if="!hidden && !disabled && !root && !isItem">
-            <i aria-label="icon: plus" class="anticon anticon-plus" style="cursor: ns-resize">
+            <i aria-label="icon: plus" class="anticon anticon-plus dragItem">
               <svg t="1685091441055" class="icon" viewBox="64 64 896 896" version="1.1"
                    xmlns="http://www.w3.org/2000/svg"
                    p-id="1936" width="1em" height="1em">
@@ -85,6 +85,7 @@
     <template v-if="!hidden && pickValue.properties && !isArray">
       <draggable
         v-model="pickValueProperties"
+        handle=".dragItem"
       >
         <json-schema-editor
           v-for="(item,key,index) in pickValue.properties"
@@ -589,6 +590,10 @@ export default {
 
 .json-schema-editor-advanced-modal .ant-advanced-search-form .ant-form-item .ant-form-item-control-wrapper {
   flex: 1;
+}
+
+.dragItem {
+  cursor: move;
 }
 
 </style>
