@@ -186,7 +186,8 @@ import {
   Row,
   Select,
   Switch,
-  Tooltip
+  Tooltip,
+  message
 } from 'ant-design-vue'
 import LocalProvider from './LocalProvider'
 import draggable from 'vuedraggable'
@@ -340,8 +341,14 @@ export default {
   methods: {
     onInputName(e) {
       const oldKey = this.pickKey
-      const newKey = e.target.value
+      let newKey = e.target.value
       if (oldKey === newKey) return
+
+      // eslint-disable-next-line no-prototype-builtins
+      if (this.parent.properties.hasOwnProperty(newKey)) {
+        message.warning('重复了，已恢复原值')
+        newKey = oldKey + ''
+      }
 
       // const nodeValue = this.parent.properties[oldKey]
 
@@ -436,9 +443,7 @@ export default {
       const node = this.pickValue
       node.properties || this.$set(node, 'properties', {})
       const props = node.properties
-      console.log('json-schema-editor-vue props before', props)
       this.$set(props, name, { type: type, title: '' })
-      console.log('json-schema-editor-vue props after', props)
     },
     parseCustomProps() {
       const ownProps = this.ownProps
