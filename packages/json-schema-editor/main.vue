@@ -436,7 +436,9 @@ export default {
       const node = this.pickValue
       node.properties || this.$set(node, 'properties', {})
       const props = node.properties
+      console.log('json-schema-editor-vue props before', props)
       this.$set(props, name, { type: type, title: '' })
+      console.log('json-schema-editor-vue props after', props)
     },
     parseCustomProps() {
       const ownProps = this.ownProps
@@ -482,8 +484,17 @@ export default {
         required.length === 0 && this.$delete(this.parent, 'required')
       }
     },
+    generateRandomString(length) {
+      const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+      let result = '';
+      const charactersLength = characters.length;
+      for (let i = 0; i < length; i++) {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+      }
+      return result;
+    },
     _joinName() {
-      return `field_${this.deep}_${this.countAdd++}`
+      return `field_${this.deep}_${this.countAdd++}_${this.generateRandomString(4)}`
     },
     onSetting() {
       this.modalVisible = true
