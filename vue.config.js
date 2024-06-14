@@ -4,7 +4,7 @@ const path = require('path')
 module.exports = {
 	publicPath: './',
 	productionSourceMap: false,
-  lintOnSave: true,
+    lintOnSave: true,
 	pages: {
 		index: {
 			entry: 'examples/main.js',

@@ -48,21 +48,21 @@
         <a-input :value="pickValue.title" :disabled="disabled || root" class="ant-col-title"
                  :placeholder="local['title']" @blur="onInputTitle" />
       </a-col>
-      <a-col :span="4">
+      <a-col :span="3">
         <a-input :value="pickValue.description" :disabled="disabled || root" class="ant-col-title"
                  :placeholder="local['description']"
                  @blur="onInputDescription" />
       </a-col>
-      <a-col :span="4">
+      <a-col :span="3">
         <a-input :value="pickValue.default" :disabled="disabled || root" class="ant-col-title"
                  :placeholder="local['default']"
                  @blur="onInputDefault" />
       </a-col>
-      <a-col :span="2" class="ant-col-setting">
-        <!--<a-tooltip>
+      <a-col :span="4" class="ant-col-setting">
+        <a-tooltip v-if="showAdvance">
           <span slot="title" v-text="local['adv_setting']">高级设置</span>
           <a-button type="link" icon="setting" class="setting-icon" @click="onSetting"/>
-        </a-tooltip>-->
+        </a-tooltip>
         <a-tooltip v-if="isObject">
           <span slot="title" v-text="local['add_child_node']">添加子节点</span>
           <a-button type="link" icon="plus" class="plus-icon" @click="addChild" />
@@ -247,6 +247,10 @@ export default {
     lang: { // i18n language
       type: String,
       default: 'zh_CN'
+    },
+    showAdvance: { //enable custom properties
+      type: Boolean,
+      default: true
     }
   },
   computed: {
