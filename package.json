@@ -23,7 +23,6 @@
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "lib": "vue-cli-service build --target lib --name json-schema-editor-vue --dest lib packages/index.js",
-    "package": "vue-cli-service build --target lib --name json-schema-editor-vue --dest json-schema-editor-vue packages/index.js",
     "analyzer": "cross-env analyzer=true vue-cli-service build"
   },
   "dependencies": {
