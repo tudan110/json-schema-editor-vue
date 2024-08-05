@@ -32,7 +32,7 @@
         </a-tooltip>
         <span v-show="!showCheckbox" style="width:24px;display:inline-block"></span>
       </a-col>
-      <a-col :span="3">
+      <a-col :span="2">
         <a-select v-model="pickValue.type" :disabled="disabled || root" class="ant-col-type" @change="onChangeType"
                   :getPopupContainer="
           triggerNode => {
@@ -48,16 +48,56 @@
         <a-input :value="pickValue.title" :disabled="disabled || root" class="ant-col-title"
                  :placeholder="local['title']" @blur="onInputTitle"/>
       </a-col>
-      <a-col :span="4">
+      <a-col :span="3">
         <a-input :value="pickValue.description" :disabled="disabled || root" class="ant-col-title"
                  :placeholder="local['description']"
                  @blur="onInputDescription"/>
       </a-col>
-      <a-col :span="4">
+      <a-col v-if="root" :span="6">
         <a-input :value="pickValue.default" :disabled="disabled || root" class="ant-col-title"
-                 :placeholder="local['default']"
+                 :placeholder="local['param_value']"
                  @blur="onInputDefault"/>
       </a-col>
+      <template v-else>
+        <a-col :span="2">
+          <a-select v-model="pickValue.valueType" :disabled="disabled || root" class="ant-col-type"
+                    @change="onChangeValueType"
+                    :getPopupContainer="
+                      triggerNode => {
+                        return triggerNode.parentNode || document.body;
+                      }"
+          >
+            <a-select-option :key="item.value" v-for="item in VALUE_TYPE" :value="item.value">
+              {{ item.label }}
+            </a-select-option>
+          </a-select>
+        </a-col>
+        <a-col :span="4">
+          <a-select
+              v-if="pickValue.valueType === 1"
+              v-model="pickValue.default"
+              :disabled="disabled || root"
+              class="ant-col-type"
+          >
+            <a-select-opt-group
+                v-for="group in groupOptions"
+                :key="group.label"
+                :label="group.label"
+            >
+              <a-select-option
+                  v-for="item in group.options"
+                  :key="item.value"
+                  :value="item.value"
+              >
+                {{ item.label }}
+              </a-select-option>
+            </a-select-opt-group>
+          </a-select>
+          <a-input v-else :value="pickValue.default" :disabled="disabled || root" class="ant-col-title"
+                   :placeholder="local['default']"
+                   @blur="onInputDefault"/>
+        </a-col>
+      </template>
       <a-col :span="2" class="ant-col-setting">
         <a-tooltip v-if="showAdvance">
           <span slot="title" v-text="local['adv_setting']">高级设置</span>
@@ -174,6 +214,7 @@
 import Vue from 'vue'
 import {isNull, renamePropertyAndKeepKeyPrecedence} from './util'
 import {TYPE, TYPE_NAME} from './type/type'
+import {VALUE_TYPE} from './valueType/valueType'
 import {
   Button,
   Checkbox,
@@ -204,6 +245,7 @@ export default {
     ACheckbox: Checkbox,
     ASelect: Select,
     ASelectOption: Select.Option,
+    ASelectOptGroup: Select.OptGroup,
     ATooltip: Tooltip,
     AModal: Modal,
     AForm: Form,
@@ -339,7 +381,49 @@ export default {
       addProp: {},// 自定义属性
       customProps: [],
       customing: false,
-      local: LocalProvider(this.lang)
+      local: LocalProvider(this.lang),
+      VALUE_TYPE,
+      // groupOptions: [],
+      groupOptions: [
+        {
+          "label": "API入参",
+          "options": [
+            {
+              "label": "网元IP (deviceIp)",
+              "value": "${in.deviceIp}"
+            },
+            {
+              "label": "网元ID (deviceId)",
+              "value": "${in.deviceId}"
+            },
+            {
+              "label": "流水号 (serialNo)",
+              "value": "${in.serialNo}"
+            }
+          ]
+        },
+        {
+          "label": "根据管理IP查询网元信息",
+          "options": [
+            {
+              "label": "结果编码 (resultId)",
+              "value": "${serviceTask_restful_2e4e4195166e4176bf5b42460e88cce9_abilityId_6f95876601b844e4801f5d61f92440ce.resultId}"
+            },
+            {
+              "label": "结果描述 (resultDesc)",
+              "value": "${serviceTask_restful_2e4e4195166e4176bf5b42460e88cce9_abilityId_6f95876601b844e4801f5d61f92440ce.resultDesc}"
+            },
+            {
+              "label": "结果信息 (resultData)",
+              "value": "${serviceTask_restful_2e4e4195166e4176bf5b42460e88cce9_abilityId_6f95876601b844e4801f5d61f92440ce.resultData}"
+            },
+            {
+              "label": "原始报文 (resultRaw)",
+              "value": "${serviceTask_restful_2e4e4195166e4176bf5b42460e88cce9_abilityId_6f95876601b844e4801f5d61f92440ce.resultRaw}"
+            }
+          ]
+        }
+      ],
     }
   },
   methods: {
@@ -397,6 +481,8 @@ export default {
       if (this.isArray) {
         this.$set(this.pickValue, 'items', {type: 'string'})
       }
+    },
+    onChangeValueType() {
     },
     onCheck(e) {
       this._checked(e.target.checked, this.parent)
