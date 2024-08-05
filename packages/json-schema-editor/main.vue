@@ -80,16 +80,16 @@
               class="ant-col-type"
           >
             <a-select-opt-group
-                v-for="group in groupOptions"
+                v-for="group in defaultGroupOptions"
                 :key="group.label"
                 :label="group.label"
             >
               <a-select-option
-                  v-for="item in group.options"
-                  :key="item.value"
-                  :value="item.value"
+                  v-for="opt in group.options"
+                  :key="opt.value"
+                  :value="opt.value"
               >
-                {{ item.label }}
+                {{ opt.label }}
               </a-select-option>
             </a-select-opt-group>
           </a-select>
@@ -139,12 +139,22 @@
             class="children"
             :lang="lang"
             :custom="custom"
+            :default-group-options="defaultGroupOptions"
         />
       </draggable>
     </template>
     <template v-if="isArray">
-      <json-schema-editor :value="{items:pickValue.items}" :deep="deep+1" disabled isItem :root="false" class="children"
-                          :lang="lang" :custom="custom"/>
+      <json-schema-editor
+          :value="{items:pickValue.items}"
+          :deep="deep+1"
+          disabled
+          isItem
+          :root="false"
+          class="children"
+          :lang="lang"
+          :custom="custom"
+          :default-group-options="defaultGroupOptions"
+      />
     </template>
     <a-modal v-model="modalVisible" v-if="modalVisible" :title="local['adv_setting']" :maskClosable="false"
              :okText="local['ok']" :cancelText="local['cancel']" width="800px" @ok="handleOk"
@@ -293,7 +303,11 @@ export default {
     showAdvance: { //enable custom properties
       type: Boolean,
       default: true
-    }
+    },
+    defaultGroupOptions: {
+      type: Array,
+      default: () => []
+    },
   },
   computed: {
     pickValueProperties: {
@@ -369,7 +383,7 @@ export default {
       if (!t) return ''
       if (!t.length) return ''
       return t.join('\n')
-    }
+    },
   },
   data() {
     return {
@@ -383,47 +397,6 @@ export default {
       customing: false,
       local: LocalProvider(this.lang),
       VALUE_TYPE,
-      // groupOptions: [],
-      groupOptions: [
-        {
-          "label": "API入参",
-          "options": [
-            {
-              "label": "网元IP (deviceIp)",
-              "value": "${in.deviceIp}"
-            },
-            {
-              "label": "网元ID (deviceId)",
-              "value": "${in.deviceId}"
-            },
-            {
-              "label": "流水号 (serialNo)",
-              "value": "${in.serialNo}"
-            }
-          ]
-        },
-        {
-          "label": "根据管理IP查询网元信息",
-          "options": [
-            {
-              "label": "结果编码 (resultId)",
-              "value": "${serviceTask_restful_2e4e4195166e4176bf5b42460e88cce9_abilityId_6f95876601b844e4801f5d61f92440ce.resultId}"
-            },
-            {
-              "label": "结果描述 (resultDesc)",
-              "value": "${serviceTask_restful_2e4e4195166e4176bf5b42460e88cce9_abilityId_6f95876601b844e4801f5d61f92440ce.resultDesc}"
-            },
-            {
-              "label": "结果信息 (resultData)",
-              "value": "${serviceTask_restful_2e4e4195166e4176bf5b42460e88cce9_abilityId_6f95876601b844e4801f5d61f92440ce.resultData}"
-            },
-            {
-              "label": "原始报文 (resultRaw)",
-              "value": "${serviceTask_restful_2e4e4195166e4176bf5b42460e88cce9_abilityId_6f95876601b844e4801f5d61f92440ce.resultRaw}"
-            }
-          ]
-        }
-      ],
     }
   },
   methods: {
