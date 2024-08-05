@@ -383,47 +383,7 @@ export default {
       customing: false,
       local: LocalProvider(this.lang),
       VALUE_TYPE,
-      // groupOptions: [],
-      groupOptions: [
-        {
-          "label": "API入参",
-          "options": [
-            {
-              "label": "网元IP (deviceIp)",
-              "value": "${in.deviceIp}"
-            },
-            {
-              "label": "网元ID (deviceId)",
-              "value": "${in.deviceId}"
-            },
-            {
-              "label": "流水号 (serialNo)",
-              "value": "${in.serialNo}"
-            }
-          ]
-        },
-        {
-          "label": "根据管理IP查询网元信息",
-          "options": [
-            {
-              "label": "结果编码 (resultId)",
-              "value": "${serviceTask_restful_2e4e4195166e4176bf5b42460e88cce9_abilityId_6f95876601b844e4801f5d61f92440ce.resultId}"
-            },
-            {
-              "label": "结果描述 (resultDesc)",
-              "value": "${serviceTask_restful_2e4e4195166e4176bf5b42460e88cce9_abilityId_6f95876601b844e4801f5d61f92440ce.resultDesc}"
-            },
-            {
-              "label": "结果信息 (resultData)",
-              "value": "${serviceTask_restful_2e4e4195166e4176bf5b42460e88cce9_abilityId_6f95876601b844e4801f5d61f92440ce.resultData}"
-            },
-            {
-              "label": "原始报文 (resultRaw)",
-              "value": "${serviceTask_restful_2e4e4195166e4176bf5b42460e88cce9_abilityId_6f95876601b844e4801f5d61f92440ce.resultRaw}"
-            }
-          ]
-        }
-      ],
+      groupOptions: [],
     }
   },
   methods: {
