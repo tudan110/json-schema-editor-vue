@@ -60,12 +60,13 @@
       </a-col>
       <template v-else>
         <a-col :span="2">
-          <a-select v-model="pickValue.valueType" :disabled="disabled || root" class="ant-col-type"
-                    @change="onChangeValueType"
-                    :getPopupContainer="
-                      triggerNode => {
-                        return triggerNode.parentNode || document.body;
-                      }"
+          <a-select
+              v-model="pickValue.valueType" :disabled="disabled || root" class="ant-col-type"
+              :default-value="0"
+              :getPopupContainer="
+                triggerNode => {
+                  return triggerNode.parentNode || document.body;
+                }"
           >
             <a-select-option :key="item.value" v-for="item in VALUE_TYPE" :value="item.value">
               {{ item.label }}
@@ -454,8 +455,6 @@ export default {
       if (this.isArray) {
         this.$set(this.pickValue, 'items', {type: 'string'})
       }
-    },
-    onChangeValueType() {
     },
     onCheck(e) {
       this._checked(e.target.checked, this.parent)
