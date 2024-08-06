@@ -518,7 +518,7 @@ export default {
       const node = this.pickValue
       node.properties || this.$set(node, 'properties', {})
       const props = node.properties
-      this.$set(props, name, {type: type, title: ''})
+      this.$set(props, name, {type: type, title: '', valueType: 0})
     },
     parseCustomProps() {
       const ownProps = this.ownProps
