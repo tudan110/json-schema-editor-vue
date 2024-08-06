@@ -79,6 +79,7 @@
               v-model="pickValue.default"
               :disabled="disabled || root"
               class="ant-col-type"
+              not-found-content="无数据"
           >
             <a-select-opt-group
                 v-for="group in defaultGroupOptions"
