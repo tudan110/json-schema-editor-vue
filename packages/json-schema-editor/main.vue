@@ -10,30 +10,30 @@
                    xmlns="http://www.w3.org/2000/svg"
                    p-id="1936" width="1em" height="1em">
                 <path
-                  d="M896 544 128 544C110.32 544 96 529.68 96 512 96 494.32 110.32 480 128 480L896 480C913.68 480 928 494.32 928 512 928 529.68 913.68 544 896 544ZM896 224 128 224C110.32 224 96 209.68 96 192 96 174.32 110.32 160 128 160L896 160C913.68 160 928 174.32 928 192 928 209.68 913.68 224 896 224ZM128 800 896 800C913.68 800 928 814.32 928 832 928 849.68 913.68 864 896 864L128 864C110.32 864 96 849.68 96 832 96 814.32 110.32 800 128 800Z"
-                  p-id="1937"></path>
+                    d="M896 544 128 544C110.32 544 96 529.68 96 512 96 494.32 110.32 480 128 480L896 480C913.68 480 928 494.32 928 512 928 529.68 913.68 544 896 544ZM896 224 128 224C110.32 224 96 209.68 96 192 96 174.32 110.32 160 128 160L896 160C913.68 160 928 174.32 928 192 928 209.68 913.68 224 896 224ZM128 800 896 800C913.68 800 928 814.32 928 832 928 849.68 913.68 864 896 864L128 864C110.32 864 96 849.68 96 832 96 814.32 110.32 800 128 800Z"
+                    p-id="1937"></path>
               </svg>
             </i>
           </template>
           <a-button v-if="pickValue.type==='object'" type="link" :icon="hidden?'caret-right':'caret-down'"
-                    style="color:rgba(0,0,0,.65)" @click="hidden = !hidden" />
+                    style="color:rgba(0,0,0,.65)" @click="hidden = !hidden"/>
           <span v-else style="width:32px;display:inline-block"></span>
-          <a-input :disabled="disabled || root" :value="pickKey" class="ant-col-name-input" @blur="onInputName" />
+          <a-input :disabled="disabled || root" :value="pickKey" class="ant-col-name-input" @blur="onInputName"/>
         </div>
         <a-tooltip v-if="root" v-show="showCheckbox">
           <span slot="title" v-text="local['checked_all']">全选</span>
           <a-checkbox :disabled="disabled || !isObject && !isArray" class="ant-col-name-required"
-                      @change="onRootCheck" />
+                      @change="onRootCheck"/>
         </a-tooltip>
         <a-tooltip v-else v-show="showCheckbox">
           <span slot="title" v-text="local['required']">是否必填</span>
           <a-checkbox :disabled="disabled || isItem" :checked="checked" class="ant-col-name-required"
-                      @change="onCheck" />
+                      @change="onCheck"/>
         </a-tooltip>
         <span v-show="!showCheckbox" style="width:24px;display:inline-block"></span>
       </a-col>
       <a-col :span="3">
-        <a-select v-model="pickValue.type" :disabled="disabled || root" class="ant-col-type" @change="onChangeType"
+        <a-select v-model="pickValue.type" :disabled="disabledType" class="ant-col-type" @change="onChangeType"
                   :getPopupContainer="
           triggerNode => {
             return triggerNode.parentNode || document.body;
@@ -45,18 +45,21 @@
         </a-select>
       </a-col>
       <a-col :span="3">
-        <a-input :value="pickValue.title" :disabled="disabled || root" class="ant-col-title"
-                 :placeholder="local['title']" @blur="onInputTitle" />
+        <a-input :value="pickValue.title" class="ant-col-title" :placeholder="local['title']" @blur="onInputTitle"/>
       </a-col>
       <a-col :span="3">
-        <a-input :value="pickValue.description" :disabled="disabled || root" class="ant-col-title"
-                 :placeholder="local['description']"
-                 @blur="onInputDescription" />
+        <a-input
+            :value="pickValue.description"
+            class="ant-col-title"
+            :placeholder="local['description']"
+            @blur="onInputDescription"/>
       </a-col>
       <a-col :span="3">
-        <a-input :value="pickValue.default" :disabled="disabled || root" class="ant-col-title"
-                 :placeholder="local['default']"
-                 @blur="onInputDefault" />
+        <a-input
+            :value="pickValue.default"
+            class="ant-col-title"
+            :placeholder="local['default']"
+            @blur="onInputDefault"/>
       </a-col>
       <a-col :span="4" class="ant-col-setting">
         <a-tooltip v-if="showAdvance">
@@ -65,7 +68,7 @@
         </a-tooltip>
         <a-tooltip v-if="isObject">
           <span slot="title" v-text="local['add_child_node']">添加子节点</span>
-          <a-button type="link" icon="plus" class="plus-icon" @click="addChild" />
+          <a-button type="link" icon="plus" class="plus-icon" @click="addChild"/>
         </a-tooltip>
         <a-tooltip v-if="!root && !isItem">
           <span slot="title" v-text="local['remove_node']">删除节点</span>
@@ -74,8 +77,8 @@
               <svg viewBox="64 64 896 896" data-icon="plus" width="1em" height="1em" fill="currentColor"
                    aria-hidden="true" focusable="false" class="">
                 <path
-                  d="M810.666667 273.493333L750.506667 213.333333 512 451.84 273.493333 213.333333 213.333333 273.493333 451.84 512 213.333333 750.506667 273.493333 810.666667 512 572.16 750.506667 810.666667 810.666667 750.506667 572.16 512z"
-                  p-id="1142"></path>
+                    d="M810.666667 273.493333L750.506667 213.333333 512 451.84 273.493333 213.333333 213.333333 273.493333 451.84 512 213.333333 750.506667 273.493333 810.666667 512 572.16 750.506667 810.666667 810.666667 750.506667 572.16 512z"
+                    p-id="1142"></path>
               </svg>
             </i>
           </a-button>
@@ -84,27 +87,27 @@
     </a-row>
     <template v-if="!hidden && pickValue.properties && !isArray">
       <draggable
-        v-model="pickValueProperties"
-        handle=".dragItem"
+          v-model="pickValueProperties"
+          handle=".dragItem"
       >
         <json-schema-editor
-          v-for="(item,key,index) in pickValue.properties"
-          :value="{[key]:item}"
-          :parent="pickValue"
-          :key="index"
-          :deep="deep+1"
-          :show-checkbox="showCheckbox"
-          :disabled="disabled"
-          :root="false"
-          class="children"
-          :lang="lang"
-          :custom="custom"
+            v-for="(item,key,index) in pickValue.properties"
+            :value="{[key]:item}"
+            :parent="pickValue"
+            :key="index"
+            :deep="deep+1"
+            :show-checkbox="showCheckbox"
+            :disabled="disabled"
+            :root="false"
+            class="children"
+            :lang="lang"
+            :custom="custom"
         />
       </draggable>
     </template>
     <template v-if="isArray">
       <json-schema-editor :value="{items:pickValue.items}" :deep="deep+1" disabled isItem :root="false" class="children"
-                          :lang="lang" :custom="custom" />
+                          :lang="lang" :custom="custom"/>
     </template>
     <a-modal v-model="modalVisible" v-if="modalVisible" :title="local['adv_setting']" :maskClosable="false"
              :okText="local['ok']" :cancelText="local['cancel']" width="800px" @ok="handleOk"
@@ -114,12 +117,12 @@
         <a-row :gutter="6">
           <a-col :span="8" v-for="(item,key) in advancedValue" :key="key">
             <a-form-item>
-              <span>{{ advancedAttr[key].extra ? (lang=='en_US'? key : advancedAttr[key].name):local[key] }}</span>
+              <span>{{ advancedAttr[key].extra ? (lang == 'en_US' ? key : advancedAttr[key].name) : local[key] }}</span>
               <a-input-number v-model="advancedValue[key]"
                               v-if="advancedAttr[key].type === 'integer' || advancedAttr[key].type === 'number'"
-                              style="width:100%" :placeholder="key" />
+                              style="width:100%" :placeholder="key"/>
               <span v-else-if="advancedAttr[key].type === 'boolean'" style="display:inline-block;width:100%">
-                  <a-switch v-model="advancedValue[key]" />
+                  <a-switch v-model="advancedValue[key]"/>
                 </span>
               <a-textarea @blur="changeEnumValue" :value="enumText" :rows="2" v-else-if="key === 'enum'"
                           :placeholder="local['enum_msg']"></a-textarea>
@@ -135,7 +138,7 @@
                   {{ t }}
                 </a-select-option>
               </a-select>
-              <a-input v-model="advancedValue[key]" v-else style="width:100%" :placeholder="key" />
+              <a-input v-model="advancedValue[key]" v-else style="width:100%" :placeholder="key"/>
             </a-form-item>
           </a-col>
         </a-row>
@@ -145,14 +148,14 @@
         <a-row :gutter="6">
           <a-col :span="8" v-for="item in customProps" :key="item.key">
             <a-form-item :label="item.key">
-              <a-input v-model="item.value" style="width:calc(100% - 30px)" />
+              <a-input v-model="item.value" style="width:calc(100% - 30px)"/>
               <a-button icon="close" type="link" @click="removeCustomNode(item.key)" style="width:30px"></a-button>
             </a-form-item>
           </a-col>
           <a-col :span="8" v-show="addProp.key != undefined">
             <a-form-item>
-              <a-input slot="label" v-model="addProp.key" style="width:100px" />
-              <a-input v-model="addProp.value" style="width:100%" />
+              <a-input slot="label" v-model="addProp.key" style="width:100px"/>
+              <a-input v-model="addProp.value" style="width:100%"/>
             </a-form-item>
           </a-col>
           <a-col :span="8">
@@ -172,8 +175,8 @@
 </template>
 <script>
 import Vue from 'vue'
-import { isNull, renamePropertyAndKeepKeyPrecedence, arrayDifference } from './util'
-import { TYPE, TYPE_NAME } from './type/type'
+import {arrayDifference, isNull, renamePropertyAndKeepKeyPrecedence} from './util'
+import {TYPE, TYPE_NAME} from './type/type'
 import {
   Button,
   Checkbox,
@@ -182,12 +185,12 @@ import {
   Icon,
   Input,
   InputNumber,
+  message,
   Modal,
   Row,
   Select,
   Switch,
-  Tooltip,
-  message
+  Tooltip
 } from 'ant-design-vue'
 import LocalProvider from './LocalProvider'
 import draggable from 'vuedraggable'
@@ -221,6 +224,10 @@ export default {
       default: true
     },
     disabled: { //name不可编辑，根节点name不可编辑,数组元素name不可编辑
+      type: Boolean,
+      default: false
+    },
+    disabledType: { //禁用类型选择
       type: Boolean,
       default: false
     },
@@ -270,7 +277,7 @@ export default {
         }
         return result*/
         const props = Object.values(this.value)[0].properties
-        return Object.entries(props).map(([key, value]) => ({ key, ...value }))
+        return Object.entries(props).map(([key, value]) => ({key, ...value}))
       },
       set(val) {
         /*let properties = {}
@@ -280,7 +287,7 @@ export default {
           properties[key] = valElement
         }
         Object.values(this.value)[0].properties = properties*/
-        Object.values(this.value)[0].properties = val.reduce((acc, { key, ...rest }) => {
+        Object.values(this.value)[0].properties = val.reduce((acc, {key, ...rest}) => {
           acc[key] = rest
           return acc
         }, {})
@@ -319,7 +326,7 @@ export default {
     },
     completeNodeValue() {
       const t = {}
-      const basicValue = { ...this.pickValue }
+      const basicValue = {...this.pickValue}
       for (const item of this.customProps) {
         t[item.key] = item.value
       }
@@ -346,26 +353,26 @@ export default {
       local: LocalProvider(this.lang)
     }
   },
-  mounted () {
+  mounted() {
     this.init()
   },
   methods: {
-    init(){
+    init() {
       if (!this.extra || JSON.stringify(this.extra) === '{}') return
 
       const keys = Object.keys(this.extra)
-      const nonCompliant = arrayDifference(TYPE_NAME, keys);
-      if (nonCompliant.length>0 ){
-        console.warn('not compliant extra，Supports only the following keys：string, number, integer, object, array, boolean', nonCompliant);
+      const nonCompliant = arrayDifference(TYPE_NAME, keys)
+      if (nonCompliant.length > 0) {
+        console.warn('not compliant extra，Supports only the following keys：string, number, integer, object, array, boolean', nonCompliant)
       }
-      for(let item in this.extra){
+      for (let item in this.extra) {
         const setting = this.extra[item]
         const basicSetting = TYPE[item]
         Object.entries(setting).forEach(([key, value]) => {
-          value.extra=true
+          value.extra = true
           basicSetting.attr[key] = value
           basicSetting.value[key] = null
-        });
+        })
       }
     },
     onInputName(e) {
@@ -420,7 +427,7 @@ export default {
       this.$delete(this.pickValue, 'enum')
 
       if (this.isArray) {
-        this.$set(this.pickValue, 'items', { type: 'string' })
+        this.$set(this.pickValue, 'items', {type: 'string'})
       }
     },
     onCheck(e) {
@@ -433,7 +440,7 @@ export default {
       const pickType = this.pickValue.type
       const value = e.target.value
 
-      if(!value || value===''){
+      if (!value || value === '') {
         this.advancedValue.enum = null
         return
       }
@@ -477,13 +484,13 @@ export default {
       const node = this.pickValue
       node.properties || this.$set(node, 'properties', {})
       const props = node.properties
-      this.$set(props, name, { type: type, title: '' })
+      this.$set(props, name, {type: type, title: ''})
     },
     parseCustomProps() {
       const ownProps = this.ownProps
       Object.keys(this.pickValue).forEach(key => {
         if (ownProps.indexOf(key) === -1) {
-          this.confirmAddCustomNode({ key: key, value: this.pickValue[key] })
+          this.confirmAddCustomNode({key: key, value: this.pickValue[key]})
           // this.$delete(this.pickValue,key)
         }
       })
@@ -515,7 +522,7 @@ export default {
       this.customing = false
     },
     removeNode() {
-      const { properties, required } = this.parent
+      const {properties, required} = this.parent
       this.$delete(properties, this.pickKey)
       if (required) {
         const pos = required.indexOf(this.pickKey)
@@ -524,20 +531,20 @@ export default {
       }
     },
     generateRandomString(length) {
-      const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-      let result = '';
-      const charactersLength = characters.length;
+      const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
+      let result = ''
+      const charactersLength = characters.length
       for (let i = 0; i < length; i++) {
-        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+        result += characters.charAt(Math.floor(Math.random() * charactersLength))
       }
-      return result;
+      return result
     },
     _joinName() {
       return `field_${this.deep}_${this.countAdd++}_${this.generateRandomString(4)}`
     },
     onSetting() {
       this.modalVisible = true
-      this.advancedValue = { ...this.advanced.value }
+      this.advancedValue = {...this.advanced.value}
       for (const k in this.advancedValue) {
         if (this.pickValue[k]) {
           this.advancedValue[k] = this.pickValue[k]
