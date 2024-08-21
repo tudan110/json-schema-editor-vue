@@ -299,6 +299,10 @@ export default {
       type: Boolean,
       default: false
     },
+    disabledType: { //禁用类型选择
+      type: Boolean,
+      default: false
+    },
     isItem: { //是否数组元素
       type: Boolean,
       default: false
