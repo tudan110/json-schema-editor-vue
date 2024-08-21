@@ -10,13 +10,19 @@
       </div>
     </div>
     <div class="container">
-      <codemirror class="code" v-model="jsonStr" :readOnly="false" />
+      <codemirror class="code" v-model="jsonStr" :readOnly="false"/>
       <!--<json-schema-editor class="schema" :value="tree" :show-checkbox="false" disabled lang="zh_CN" custom />-->
-      <json-schema-editor class="schema" :value="tree" lang="zh_CN" custom />
+      <json-schema-editor
+          class="schema"
+          :value="tree"
+          disabledType
+          lang="zh_CN"
+          custom
+      />
     </div>
     <a-modal v-model="visible" title="import json" width="800px" height="600x" @ok="handleImportJson">
       <div class="code-container">
-        <codemirror class="code" v-model="importJson" :readOnly="false" />
+        <codemirror class="code" v-model="importJson" :readOnly="false"/>
       </div>
     </a-modal>
   </div>
@@ -29,7 +35,7 @@ import GenerateSchema from 'generate-schema'
 
 export default {
   name: 'App',
-  components: { Codemirror },
+  components: {Codemirror},
   computed: {
     jsonStr: {
       get: function () {
@@ -46,34 +52,34 @@ export default {
       importJson: '',
       visible: false,
       tree:
-        {
-          'root': {
-            'type': 'object',
-            'title': '名称',
-            'properties': {
-              'name': {
-                'type': 'string',
-                'title': '名称',
-                'maxLength': 10,
-                'minLength': 2
+          {
+            'root': {
+              'type': 'object',
+              'title': '名称',
+              'properties': {
+                'name': {
+                  'type': 'string',
+                  'title': '名称',
+                  'maxLength': 10,
+                  'minLength': 2
+                },
+                'appId': {
+                  'type': 'integer',
+                  'title': '应用ID'
+                },
+                'credate': {
+                  'type': 'string',
+                  'title': '创建日期',
+                  'format': 'date'
+                }
               },
-              'appId': {
-                'type': 'integer',
-                'title': '应用ID'
-              },
-              'credate': {
-                'type': 'string',
-                'title': '创建日期',
-                'format': 'date'
-              }
-            },
-            'required': [
-              'name',
-              'appId',
-              'credate'
-            ]
+              'required': [
+                'name',
+                'appId',
+                'credate'
+              ]
+            }
           }
-        }
     }
   },
   methods: {
