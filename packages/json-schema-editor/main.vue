@@ -33,22 +33,31 @@
         <span v-show="!showCheckbox" style="width:24px;display:inline-block"></span>
       </a-col>
       <a-col :span="2">
-        <a-select v-if="useObjAny" v-model="pickValue.type" :disabled="disabledType" class="ant-col-type"
-                  @change="onChangeType"
-                  :getPopupContainer="
-          triggerNode => {
-            return triggerNode.parentNode || document.body;
-          }"
+        <a-select
+            v-if="useObjAny"
+            v-model="pickValue.type"
+            :disabled="disabledType"
+            class="ant-col-type"
+            @change="onChangeType"
+            :getPopupContainer="
+                triggerNode => {
+                  return triggerNode.parentNode || document.body;
+                }"
         >
           <a-select-option :key="t" v-for="t in TYPE_NAME">
             {{ t }}
           </a-select-option>
         </a-select>
-        <a-select v-else v-model="pickValue.type" :disabled="disabledType" class="ant-col-type" @change="onChangeType"
-                  :getPopupContainer="
-          triggerNode => {
-            return triggerNode.parentNode || document.body;
-          }"
+        <a-select
+            v-else
+            v-model="pickValue.type"
+            :disabled="disabledType"
+            class="ant-col-type"
+            @change="onChangeType"
+            :getPopupContainer="
+                triggerNode => {
+                  return triggerNode.parentNode || document.body;
+                }"
         >
           <a-select-option :key="t" v-for="t in LESS_TYPE_NAME">
             {{ t }}
@@ -56,11 +65,18 @@
         </a-select>
       </a-col>
       <a-col :span="3">
-        <a-input :value="pickValue.title" class="ant-col-title" :placeholder="local['title']" @blur="onInputTitle"/>
+        <a-input
+            :value="pickValue.title"
+            :disabled="disabledType"
+            class="ant-col-title"
+            :placeholder="local['title']"
+            @blur="onInputTitle"
+        />
       </a-col>
       <a-col :span="3">
         <a-input
             :value="pickValue.description"
+            :disabled="disabledType"
             class="ant-col-title"
             :placeholder="local['description']"
             @blur="onInputDescription"/>
@@ -68,6 +84,7 @@
       <a-col v-if="root" :span="6">
         <a-input
             :value="pickValue.default"
+            :disabled="disabledType"
             class="ant-col-title"
             :placeholder="local['param_value']"
             @blur="onInputDefault"/>

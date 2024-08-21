@@ -15,6 +15,7 @@
       <json-schema-editor
           class="schema"
           :value="tree"
+          disabledType
           lang="zh_CN"
           custom
           :default-group-options="defaultGroupOptions"
