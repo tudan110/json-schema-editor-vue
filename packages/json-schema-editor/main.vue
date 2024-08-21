@@ -79,6 +79,7 @@
               :disabled="isArray"
               class="ant-col-type"
               :default-value="0"
+              allowClear
               :getPopupContainer="
                 triggerNode => {
                   return triggerNode.parentNode || document.body;
