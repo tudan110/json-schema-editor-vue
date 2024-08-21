@@ -57,6 +57,7 @@
       <a-col :span="3">
         <a-input
             :value="pickValue.default"
+            :disabled="isArray"
             class="ant-col-title"
             :placeholder="local['default']"
             @blur="onInputDefault"/>
