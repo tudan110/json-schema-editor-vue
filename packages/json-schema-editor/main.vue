@@ -95,7 +95,7 @@
               v-model="pickValue.valueType"
               :disabled="isArray"
               class="ant-col-type"
-              :default-value="0"
+              :placeholder="local['value_type']"
               allowClear
               :getPopupContainer="
                 triggerNode => {
@@ -596,7 +596,7 @@ export default {
       const node = this.pickValue
       node.properties || this.$set(node, 'properties', {})
       const props = node.properties
-      this.$set(props, name, {type: type, title: '', valueType: 0})
+      this.$set(props, name, {type: type, title: ''})
     },
     parseCustomProps() {
       const ownProps = this.ownProps
