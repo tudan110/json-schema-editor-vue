@@ -44,3 +44,7 @@ export function renamePropertyAndKeepKeyPrecedence(_this, obj, [oldKey, newKey])
   }
   return obj
 }
+/**过滤数组元素 */
+export function arrayDifference(basicArr, arr) {
+  return arr.filter(item => !basicArr.includes(item));
+}

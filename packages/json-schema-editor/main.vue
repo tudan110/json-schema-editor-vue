@@ -33,7 +33,8 @@
         <span v-show="!showCheckbox" style="width:24px;display:inline-block"></span>
       </a-col>
       <a-col :span="2">
-        <a-select v-if="useObjAny" v-model="pickValue.type" :disabled="disabled || root" class="ant-col-type" @change="onChangeType"
+        <a-select v-if="useObjAny" v-model="pickValue.type" :disabled="disabledType" class="ant-col-type"
+                  @change="onChangeType"
                   :getPopupContainer="
           triggerNode => {
             return triggerNode.parentNode || document.body;
@@ -43,7 +44,7 @@
             {{ t }}
           </a-select-option>
         </a-select>
-        <a-select v-else v-model="pickValue.type" :disabled="disabled || root" class="ant-col-type" @change="onChangeType"
+        <a-select v-else v-model="pickValue.type" :disabled="disabledType" class="ant-col-type" @change="onChangeType"
                   :getPopupContainer="
           triggerNode => {
             return triggerNode.parentNode || document.body;
@@ -55,23 +56,28 @@
         </a-select>
       </a-col>
       <a-col :span="3">
-        <a-input :value="pickValue.title" :disabled="disabled || root" class="ant-col-title"
-                 :placeholder="local['title']" @blur="onInputTitle"/>
+        <a-input :value="pickValue.title" class="ant-col-title" :placeholder="local['title']" @blur="onInputTitle"/>
       </a-col>
       <a-col :span="3">
-        <a-input :value="pickValue.description" :disabled="disabled || root" class="ant-col-title"
-                 :placeholder="local['description']"
-                 @blur="onInputDescription"/>
+        <a-input
+            :value="pickValue.description"
+            class="ant-col-title"
+            :placeholder="local['description']"
+            @blur="onInputDescription"/>
       </a-col>
       <a-col v-if="root" :span="6">
-        <a-input :value="pickValue.default" :disabled="disabled || root" class="ant-col-title"
-                 :placeholder="local['param_value']"
-                 @blur="onInputDefault"/>
+        <a-input
+            :value="pickValue.default"
+            class="ant-col-title"
+            :placeholder="local['param_value']"
+            @blur="onInputDefault"/>
       </a-col>
       <template v-else>
         <a-col :span="2">
           <a-select
-              v-model="pickValue.valueType" :disabled="disabled || root" class="ant-col-type"
+              v-model="pickValue.valueType"
+              :disabled="isArray"
+              class="ant-col-type"
               :default-value="0"
               :getPopupContainer="
                 triggerNode => {
@@ -87,7 +93,7 @@
           <a-select
               v-if="pickValue.valueType === 1"
               v-model="pickValue.default"
-              :disabled="disabled || root"
+              :disabled="isArray"
               class="ant-col-type"
               not-found-content="无数据"
           >
@@ -105,9 +111,13 @@
               </a-select-option>
             </a-select-opt-group>
           </a-select>
-          <a-input v-else :value="pickValue.default" :disabled="disabled || root" class="ant-col-title"
-                   :placeholder="local['default']"
-                   @blur="onInputDefault"/>
+          <a-input
+              v-else
+              :value="pickValue.default"
+              :disabled="isArray"
+              class="ant-col-title"
+              :placeholder="local['default']"
+              @blur="onInputDefault"/>
         </a-col>
       </template>
       <a-col :span="2" class="ant-col-setting">
@@ -176,7 +186,7 @@
         <a-row :gutter="6">
           <a-col :span="8" v-for="(item,key) in advancedValue" :key="key">
             <a-form-item>
-              <span>{{ local[key] }}</span>
+              <span>{{ advancedAttr[key].extra ? (lang == 'en_US' ? key : advancedAttr[key].name) : local[key] }}</span>
               <a-input-number v-model="advancedValue[key]"
                               v-if="advancedAttr[key].type === 'integer' || advancedAttr[key].type === 'number'"
                               style="width:100%" :placeholder="key"/>
@@ -234,8 +244,8 @@
 </template>
 <script>
 import Vue from 'vue'
-import {isNull, renamePropertyAndKeepKeyPrecedence} from './util'
-import {TYPE, TYPE_NAME, LESS_TYPE_NAME} from './type/type'
+import {arrayDifference, isNull, renamePropertyAndKeepKeyPrecedence} from './util'
+import {LESS_TYPE_NAME, TYPE, TYPE_NAME} from './type/type'
 import {VALUE_TYPE} from './valueType/valueType'
 import {
   Button,
@@ -311,6 +321,10 @@ export default {
     lang: { // i18n language
       type: String,
       default: 'zh_CN'
+    },
+    extra: { // 基础设置里追加的设置
+      type: Object,
+      default: null
     },
     showAdvance: { //enable custom properties
       type: Boolean,
@@ -416,7 +430,28 @@ export default {
       VALUE_TYPE,
     }
   },
+  mounted() {
+    this.init()
+  },
   methods: {
+    init() {
+      if (!this.extra || JSON.stringify(this.extra) === '{}') return
+
+      const keys = Object.keys(this.extra)
+      const nonCompliant = arrayDifference(TYPE_NAME, keys)
+      if (nonCompliant.length > 0) {
+        console.warn('not compliant extra，Supports only the following keys：string, number, integer, object, array, boolean', nonCompliant)
+      }
+      for (let item in this.extra) {
+        const setting = this.extra[item]
+        const basicSetting = TYPE[item]
+        Object.entries(setting).forEach(([key, value]) => {
+          value.extra = true
+          basicSetting.attr[key] = value
+          basicSetting.value[key] = null
+        })
+      }
+    },
     onInputName(e) {
       const oldKey = this.pickKey
       let newKey = e.target.value
@@ -481,6 +516,11 @@ export default {
     changeEnumValue(e) {
       const pickType = this.pickValue.type
       const value = e.target.value
+
+      if (!value || value === '') {
+        this.advancedValue.enum = null
+        return
+      }
       var arr = value.split('\n')
 
       if (pickType === 'string') {
