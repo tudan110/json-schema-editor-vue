@@ -33,13 +33,23 @@
         <span v-show="!showCheckbox" style="width:24px;display:inline-block"></span>
       </a-col>
       <a-col :span="2">
-        <a-select v-model="pickValue.type" :disabled="disabled || root" class="ant-col-type" @change="onChangeType"
+        <a-select v-if="useObjAny" v-model="pickValue.type" :disabled="disabled || root" class="ant-col-type" @change="onChangeType"
                   :getPopupContainer="
           triggerNode => {
             return triggerNode.parentNode || document.body;
           }"
         >
           <a-select-option :key="t" v-for="t in TYPE_NAME">
+            {{ t }}
+          </a-select-option>
+        </a-select>
+        <a-select v-else v-model="pickValue.type" :disabled="disabled || root" class="ant-col-type" @change="onChangeType"
+                  :getPopupContainer="
+          triggerNode => {
+            return triggerNode.parentNode || document.body;
+          }"
+        >
+          <a-select-option :key="t" v-for="t in LESS_TYPE_NAME">
             {{ t }}
           </a-select-option>
         </a-select>
@@ -225,7 +235,7 @@
 <script>
 import Vue from 'vue'
 import {isNull, renamePropertyAndKeepKeyPrecedence} from './util'
-import {TYPE, TYPE_NAME} from './type/type'
+import {TYPE, TYPE_NAME, LESS_TYPE_NAME} from './type/type'
 import {VALUE_TYPE} from './valueType/valueType'
 import {
   Button,
@@ -310,6 +320,10 @@ export default {
       type: Array,
       default: () => []
     },
+    useObjAny: { //enable custom properties
+      type: Boolean,
+      default: true
+    },
   },
   computed: {
     pickValueProperties: {
@@ -390,6 +404,7 @@ export default {
   data() {
     return {
       TYPE_NAME,
+      LESS_TYPE_NAME,
       hidden: false,
       countAdd: 1,
       modalVisible: false,

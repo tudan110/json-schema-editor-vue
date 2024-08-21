@@ -8,6 +8,8 @@ import _any from './any'
 
 const TYPE_NAME = ['string', 'integer', 'number', 'boolean', 'array', 'object', 'any']
 
+const LESS_TYPE_NAME = ['string', 'integer', 'number', 'boolean', 'array']
+
 const TYPE = {
   'string': _string,
   'integer': _integer,
@@ -17,4 +19,4 @@ const TYPE = {
   'object': _object,
   'any': _any
 }
-export { TYPE, TYPE_NAME }
+export { TYPE, TYPE_NAME, LESS_TYPE_NAME }

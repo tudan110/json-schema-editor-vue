@@ -12,8 +12,15 @@
     <div class="container">
       <codemirror class="code" v-model="jsonStr" :readOnly="false"/>
       <!--<json-schema-editor class="schema" :value="tree" :show-checkbox="false" disabled lang="zh_CN" custom />-->
-      <json-schema-editor class="schema" :value="tree" lang="zh_CN" custom
-                          :default-group-options="defaultGroupOptions"/>
+      <json-schema-editor
+          class="schema"
+          :value="tree"
+          lang="zh_CN"
+          custom
+          :default-group-options="defaultGroupOptions"
+          :show-advance="false"
+          :use-obj-any="false"
+      />
     </div>
     <a-modal v-model="visible" title="import json" width="800px" height="600x" @ok="handleImportJson">
       <div class="code-container">
