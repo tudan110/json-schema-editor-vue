@@ -38,7 +38,7 @@ const langs = {
 		'required': 'Required',
 		'mock': 'mock',
 		'mockLink': 'Help',
-		'format': 'Format',
+		'format': 'Format Validator',
 		'nothing': 'Nothing',
 		'preview': 'Preview',
 		'add_custom': 'Add Custom Prop',
@@ -82,7 +82,7 @@ const langs = {
 		'required': '是否必须',
 		'mock': 'mock',
 		'mockLink': '查看文档',
-		'format': '格式化',
+		'format': '格式化校验',
 		'nothing': '无',
 		'preview': '预览',
 		'add_custom': '添加自定义属性'
