@@ -97,8 +97,6 @@
             :parent="pickValue"
             :key="index"
             :deep="deep+1"
-            :show-checkbox="showCheckbox"
-            :disabled="disabled"
             :root="false"
             class="children"
             :lang="lang"
