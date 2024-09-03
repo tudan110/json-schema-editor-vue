@@ -27,7 +27,7 @@ const attr = {
     name: '格式',
     type: 'array',
     // enums: ['email', 'hostname', 'ipv4', 'ipv6', 'mac', 'date', 'date-time', 'uri']
-    enums: ['email', 'hostname', 'ipv4', 'ipv6', 'mac'/*, 'date', 'date-time', 'uri'*/]
+    enums: ['ipv4', 'ipv6', 'mac'/*, 'date', 'date-time', 'uri'*/]
   },
   enum: {
     name: '枚举',
