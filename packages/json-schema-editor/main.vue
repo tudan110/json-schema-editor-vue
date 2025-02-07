@@ -90,7 +90,7 @@
             @blur="onInputDefault"/>
       </a-col>
       <template v-else>
-        <a-col :span="2">
+        <a-col  v-if="showdefaultGroupOptions" :span="2" >
           <a-select
               v-model="pickValue.valueType"
               :disabled="isArray"
@@ -107,7 +107,7 @@
             </a-select-option>
           </a-select>
         </a-col>
-        <a-col :span="4">
+        <a-col :span="showdefaultGroupOptions? 4 : 6">
           <a-select
               v-if="pickValue.valueType === 1"
               v-model="pickValue.default"
@@ -137,11 +137,12 @@
               :placeholder="local['default']"
               @blur="onInputDefault"/>
         </a-col>
+
       </template>
       <a-col :span="2" class="ant-col-setting">
         <a-tooltip v-if="showAdvance">
-          <span slot="title" v-text="local['adv_setting']">高级设置</span>
-          <a-button type="link" icon="setting" class="setting-icon" @click="onSetting"/>
+          <span  slot="title" v-text="local['adv_setting']">高级设置</span>
+          <a-button  type="link" icon="setting" class="setting-icon" @click="onSetting"/>
         </a-tooltip>
         <a-tooltip v-if="isObject">
           <span slot="title" v-text="local['add_child_node']">添加子节点</span>
@@ -177,6 +178,8 @@
             class="children"
             :lang="lang"
             :custom="custom"
+            :showAdvance = "showAdvance"
+            :showdefaultGroupOptions="showdefaultGroupOptions"
             :default-group-options="defaultGroupOptions"
         />
       </draggable>
@@ -191,6 +194,8 @@
           class="children"
           :lang="lang"
           :custom="custom"
+           :showAdvance = "showAdvance"
+          :showdefaultGroupOptions="showdefaultGroupOptions"
           :default-group-options="defaultGroupOptions"
       />
     </template>
@@ -347,6 +352,10 @@ export default {
       default: null
     },
     showAdvance: { //enable custom properties
+      type: Boolean,
+      default: false
+    },
+    showdefaultGroupOptions:{
       type: Boolean,
       default: true
     },
