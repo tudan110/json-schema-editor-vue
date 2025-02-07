@@ -1,5 +1,5 @@
 {
-  "name": "json-schema-editor-vue",
+  "name": "@tudan110/json-schema-editor-vue",
   "version": "0.0.27",
   "description": "A json-schema editor of high efficient and easy-to-use, base on Vue",
   "main": "lib/json-schema-editor-vue.umd.min.js",
