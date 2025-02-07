@@ -90,7 +90,7 @@
             @blur="onInputDefault"/>
       </a-col>
       <template v-else>
-        <a-col  v-if="showdefaultGroupOptions" :span="2" >
+        <a-col  v-if="showDefaultGroupOptions" :span="2" >
           <a-select
               v-model="pickValue.valueType"
               :disabled="isArray"
@@ -107,7 +107,7 @@
             </a-select-option>
           </a-select>
         </a-col>
-        <a-col :span="showdefaultGroupOptions? 4 : 6">
+        <a-col :span="showDefaultGroupOptions? 4 : 6">
           <a-select
               v-if="pickValue.valueType === 1"
               v-model="pickValue.default"
@@ -177,10 +177,11 @@
             :root="false"
             class="children"
             :lang="lang"
-            :custom="custom"
-            :showAdvance = "showAdvance"
-            :showdefaultGroupOptions="showdefaultGroupOptions"
+            :show-default-group-options="showDefaultGroupOptions"
             :default-group-options="defaultGroupOptions"
+            :show-advance = "showAdvance"
+            :custom="custom"
+            :use-obj-any="useObjAny"
         />
       </draggable>
     </template>
@@ -193,10 +194,11 @@
           :root="false"
           class="children"
           :lang="lang"
-          :custom="custom"
-           :showAdvance = "showAdvance"
-          :showdefaultGroupOptions="showdefaultGroupOptions"
+          :show-default-group-options="showDefaultGroupOptions"
           :default-group-options="defaultGroupOptions"
+          :show-advance = "showAdvance"
+          :custom="custom"
+          :use-obj-any="useObjAny"
       />
     </template>
     <a-modal v-model="modalVisible" v-if="modalVisible" :title="local['adv_setting']" :maskClosable="false"
@@ -353,9 +355,9 @@ export default {
     },
     showAdvance: { //enable custom properties
       type: Boolean,
-      default: false
+      default: true
     },
-    showdefaultGroupOptions:{
+    showDefaultGroupOptions:{
       type: Boolean,
       default: true
     },

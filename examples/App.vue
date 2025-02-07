@@ -17,10 +17,10 @@
           :value="tree"
           disabledType
           lang="zh_CN"
-          custom
           :default-group-options="defaultGroupOptions"
-          :showdefaultGroupOptions ='false'
-          :show-advance="false"
+          :show-defaultGroupOptions ='true'
+          :show-advance="true"
+          custom
           :use-obj-any="false"
       />
     </div>
