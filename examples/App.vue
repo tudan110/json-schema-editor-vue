@@ -17,6 +17,7 @@
           :value="tree"
           disabledType
           lang="zh_CN"
+          :show-checkbox="true"
           :default-group-options="defaultGroupOptions"
           :show-defaultGroupOptions ='true'
           :show-advance="true"
